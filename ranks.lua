@@ -23,7 +23,7 @@ ranks.register("spieler", {
 -- =========================================
 ranks.register("supporter", {
     prefix = "Supporter",
-    colour = {a = 255, r = 255, g = 132, b = 0}, -- Orange
+    colour = {a = 255, r = 230, g = 126, b = 34}, -- Orange
     strict_privs = true,
     privs = {
         -- Builtin
@@ -57,7 +57,7 @@ ranks.register("supporter", {
 -- =========================================
 ranks.register("moderator", {
     prefix = "Moderator",
-    colour = {a = 255, r = 255, g = 83, b = 37}, -- Rot-Orange
+    colour = {a = 255, r = 46, g = 204, b = 113}, -- Grün
     strict_privs = true,
     privs = {
         -- Builtin
@@ -113,7 +113,7 @@ ranks.register("moderator", {
 -- =========================================
 ranks.register("admin", {
     prefix = "Admin",
-    colour = {a = 255, r = 230, g = 33, b = 23}, -- Rot
+    colour = {a = 255, r = 241, g = 196, b = 15}, -- Gelb
     strict_privs = true,
     privs = {
         -- Builtin
