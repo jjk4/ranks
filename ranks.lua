@@ -196,5 +196,6 @@ ranks.register("admin", {
         waypoints_tp = true,
         weather_manager = true,
         worldedit = true,
+		rank = true,
     }
 })
