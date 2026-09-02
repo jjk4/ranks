@@ -176,7 +176,7 @@ function ranks.update_nametag(name_or_obj)
         local colour = get_colour(def.colour)
         local prefix = def.prefix
 
-        if prefix then
+        if prefix and not def.default then
             prefix = minetest.colorize(colour, prefix).." "
         else
             prefix = ""
@@ -247,7 +247,7 @@ function ranks.chat_send(name, message)
         local rank = ranks.get_rank(name)
         if rank ~= nil then
             local def = ranks.get_def(rank)
-            if def and def.prefix then
+            if def and def.prefix and not def.default then
                 local colour = get_colour(def.colour)
                 local prefix = minetest.colorize(colour, def.prefix)
                 
