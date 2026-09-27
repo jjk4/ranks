@@ -3,6 +3,7 @@
 ranks = {}
 
 local chat3_exists = minetest.get_modpath("chat3") ~= nil
+local spectate_exists = minetest.get_modpath("spectate") ~= nil
 local registered   = {}
 ranks.default      = nil
 
@@ -21,6 +22,12 @@ local function get_name(name_or_obj)
         return name_or_obj:get_player_name()
     end
     return nil
+end
+
+-- Prüft, ob der Spieler gerade im Spectator-Modus ist (spectate mod)
+local function is_spectating(player)
+    return spectate_exists and spectate and spectate.check_status
+        and spectate.check_status(player) or false
 end
 
 ---
@@ -170,6 +177,9 @@ function ranks.update_nametag(name_or_obj)
     local player = minetest.get_player_by_name(name)
     if not player then return false end
 
+    -- Nametag von Spectators nicht wieder sichtbar machen
+    if is_spectating(player) then return false end
+
     local rank = ranks.get_rank(name)
     if rank ~= nil then
         local def    = ranks.get_def(rank)
@@ -215,10 +225,12 @@ function ranks.remove_rank(name_or_obj)
 
         local player = minetest.get_player_by_name(name)
         if player then
-            player:set_nametag_attributes({
-                text = name,
-                color = "#ffffff",
-            })
+            if not is_spectating(player) then
+                player:set_nametag_attributes({
+                    text = name,
+                    color = "#ffffff",
+                })
+            end
             local basic_privs = minetest.string_to_privs(minetest.settings:get("basic_privs") or "interact,shout")
             minetest.set_player_privs(name, basic_privs)
         end
@@ -393,6 +405,19 @@ minetest.register_chatcommand("getrank", {
         end
     end,
 })
+
+-- spectate setzt beim Verlassen des Spectator-Modus den Nametag auf den
+-- reinen Spielernamen zurück; danach den Rang-Prefix wiederherstellen
+if spectate_exists and spectate and spectate.disable then
+    local spectate_disable = spectate.disable
+    spectate.disable = function(player, ...)
+        local ret = spectate_disable(player, ...)
+        if player and player.is_player and player:is_player() then
+            ranks.update_nametag(player)
+        end
+        return ret
+    end
+end
 
 ---
 --- Ranks
