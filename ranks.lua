@@ -49,6 +49,9 @@ ranks.register("supporter", {
         -- ess.warp & home
         ["ess.warp.warp"] = true,
         home = true,
+
+        -- Sonstige
+        spectate = true,
     }
 })
 
@@ -101,7 +104,7 @@ ranks.register("moderator", {
         ["home.multiple"] = true,
         
         -- Sonstige
-        invisible = true,
+        spectate = true,
         invmanage = true,
         travelnet_attach = true,
         travelnet_remove = true,
@@ -187,7 +190,7 @@ ranks.register("admin", {
         ["home.multiple.all"] = true,
         
         -- Sonstige
-        invisible = true,
+        spectate = true,
         invmanage = true,
         maphack = true,
         no_regional_difficulty = true,
